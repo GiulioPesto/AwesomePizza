@@ -1,6 +1,6 @@
-package com.example.AwesomePizza.pizzaiolo;
+package com.example.AwesomePizza.menu;
 
-import com.example.AwesomePizza.ordine.Ordine;
+import com.example.AwesomePizza.pizza.Pizza;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "pizzaiolo")
+@Table(name = "menu")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Pizzaiolo {
+public class Menu {
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,12 +24,8 @@ public class Pizzaiolo {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "cognome")
-    private String cognome;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "menu")
+    private List<Pizza> pizze;
 
-    @Column(name = "telefono")
-    private String telefono;
-
-    @Column(name = "codice_fiscale")
-    private String codiceFiscale;
 }
