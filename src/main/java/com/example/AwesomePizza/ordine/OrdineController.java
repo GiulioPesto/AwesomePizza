@@ -56,9 +56,7 @@ public class OrdineController {
 
 
             List<String> nomiIngredienti = pizzaDTO.getIngredientiAggiuntivi();
-            if (nomiIngredienti == null || nomiIngredienti.isEmpty()) {
-                return new ResponseEntity<>("Invalid request data", HttpStatus.BAD_REQUEST);
-            }
+
 
             Double prezzo = nomiIngredienti.stream()
                     .map(ingredientiService::retrieveIngredientiByNome)
