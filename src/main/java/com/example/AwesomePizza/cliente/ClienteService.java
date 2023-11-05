@@ -13,14 +13,7 @@ public class ClienteService {
         @Autowired
         ClienteRepository clienteRepository;
 
-        public Cliente createCliente(String nome, String cognome, String indirizzo, String telefono, String email, String infoAggiuntive) {
-            Cliente cliente = new Cliente();
-            cliente.setNome(nome);
-            cliente.setCognome(cognome);
-            cliente.setIndirizzo(indirizzo);
-            cliente.setTelefono(telefono);
-            cliente.setEmail(email);
-            cliente.setInfoAggiuntive(infoAggiuntive);
+        public Cliente createCliente(Cliente cliente) {
             return clienteRepository.save(cliente);
         }
 

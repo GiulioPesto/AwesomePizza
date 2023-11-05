@@ -47,8 +47,7 @@ public class OrdineService {
         }
 
         public List<Ordine> retrieveAllOrdiniNonCompletati() {
-            List<Ordine> ordini = ordineRepository.findByStatoOrdine(StatoOrdine.IN_FASE_DI_ELABORAZIONE.getStato());
-            return ordini;
+            return ordineRepository.findByStatoOrdine(StatoOrdine.IN_FASE_DI_ELABORAZIONE.getStato());
         }
 
     public void updateOrdine(Long ordineId, Ordine ordineAggiornato) {

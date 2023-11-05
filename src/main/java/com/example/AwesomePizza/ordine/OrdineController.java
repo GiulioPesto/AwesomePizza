@@ -36,23 +36,16 @@ public class OrdineController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addOrdine(@RequestParam String nome,
-                                       @RequestParam String cognome,
-                                       @RequestParam String telefono,
-                                       @RequestParam String indirizzo,
-                                       @RequestParam String email,
-                                       @RequestParam String infoAggiuntive,
-                                            @RequestParam Long menuId,
-                                            @RequestBody List<PizzaConIngredientiDTO> pizzaConIngredientiDTO) {
+    public ResponseEntity<?> addOrdine(@RequestBody OrdineDTO ordineDTO) {
 
         if (!ordineService.retrieveAllOrdiniNonCompletati().isEmpty()) {
-            return new ResponseEntity<>("Ci sono ancora ordini da completare", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Altri ordini vengono eseguiti in questo momento, perfavore riprova più tardi", HttpStatus.BAD_REQUEST);
         }
 
         List<Pizza> pizze = new ArrayList<>();
 
-        for (PizzaConIngredientiDTO pizzaDTO : pizzaConIngredientiDTO) {
-            Pizza pizzaDalMenu = pizzaService.getPizzaDalMenu(menuId, pizzaDTO.getPizza().getNome());
+        for (PizzaConIngredientiDTO pizzaDTO : ordineDTO.getPizze()) {
+            Pizza pizzaDalMenu = pizzaService.getPizzaDalMenu(ordineDTO.getMenuId(), pizzaDTO.getPizza().getNome());
 
 
             List<String> nomiIngredienti = pizzaDTO.getIngredientiAggiuntivi();
@@ -69,15 +62,13 @@ public class OrdineController {
             pizzaService.addIngredientiToPizza(pizza, nomiIngredienti);
             pizze.add(pizza);
         }
-
-
-        Cliente cliente = clienteService.createCliente(nome, cognome, indirizzo, telefono,email, infoAggiuntive);
+        Cliente cliente = ordineDTO.getOrdine().getCliente();
         Ordine ordine = new Ordine();
         ordine.setPizze(pizze);
         ordine.setPrezzoTot(ordineService.prezzoTot(pizze));
         ordine.setCliente(cliente);
         ordineService.addOrdine(ordine);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")

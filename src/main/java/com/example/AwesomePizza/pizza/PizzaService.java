@@ -48,7 +48,7 @@ public class PizzaService {
         return pizzaRepository.save(pizza);
     }
 
-    public Pizza addIngredientiToPizza(Pizza pizza, List<String> nomiIngredienti) {
+    public void addIngredientiToPizza(Pizza pizza, List<String> nomiIngredienti) {
         List<Ingredienti> ingredienti = pizza.getIngredientiAggiuntivi();
         for (String nomeIngrediente : nomiIngredienti) {
             Ingredienti ingrediente = ingredientiService.retrieveIngredientiByNome(nomeIngrediente);
@@ -58,7 +58,7 @@ public class PizzaService {
         }
         pizza.setIngredientiAggiuntivi(ingredienti);
 
-        return pizzaRepository.save(pizza);
+        pizzaRepository.save(pizza);
     }
 
     public Optional<Pizza> getPizza(Long pizzaId) {

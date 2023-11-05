@@ -18,6 +18,7 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @Column(name = "nome")

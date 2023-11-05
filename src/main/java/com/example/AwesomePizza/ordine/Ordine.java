@@ -29,8 +29,7 @@ public class Ordine {
     @Column(name = "data_ordine")
     private String dataOrdine;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cliente")
     private Cliente cliente;
 
@@ -39,6 +38,7 @@ public class Ordine {
     private String statoOrdine;
 
     @ManyToMany
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinTable(
             name = "ordini_pizze",
             joinColumns = @JoinColumn(name = "ordine_id"),
@@ -52,7 +52,6 @@ public class Ordine {
 
     public String getDataOrdineSemplificata(Date dataOrdine) {
         SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dataFormattata = formatData.format(dataOrdine);
-        return dataFormattata;
+        return formatData.format(dataOrdine);
     }
 }
